@@ -1,0 +1,111 @@
+import numpy
+
+randomarray1 = numpy.random.choice(numpy.arange(16, 160), size=16, replace=False)##GERA CARTELA SEM REPETIÇÃO
+maiorpedra1 = numpy.max(randomarray1)
+randomarray2 = numpy.random.choice(numpy.arange(16, 160), size=16, replace=False)##GERA CARTELA SEM REPETIÇÃO
+maiorpedra2 = numpy.max(randomarray2)
+randomarray3 = numpy.random.choice(numpy.arange(16, 160), size=16, replace=False)##GERA CARTELA SEM REPETIÇÃO
+maiorpedra3 = numpy.max(randomarray3)
+
+def bingocardhex1(_randomarray1):##TRANSFORMA A CARTELA 1 EM HEX
+    arrayhex=numpy.chararray(16, itemsize=2, unicode=True)
+    for i in range(16):
+        hexa=hex(randomarray1[i]).upper()
+        arrayhex[i]=hexa[2:]
+    return arrayhex
+
+def bingocardhex2(_randomarray2):##TRANSFORMA A CARTELA 2 EM HEX
+    arrayhex=numpy.chararray(16, itemsize=2, unicode=True)
+    for i in range(16):
+        hexa=hex(randomarray2[i]).upper()
+        arrayhex[i]=hexa[2:]
+    return arrayhex
+
+def bingocardhex3(_randomarray3):##TRANSFORMA A CARTELA 3 EM HEX
+    arrayhex=numpy.chararray(16, itemsize=2, unicode=True)
+    for i in range(16):
+        hexa=hex(randomarray3[i]).upper()
+        arrayhex[i]=hexa[2:]
+    return arrayhex
+
+def stonesort():##SORTEIA TODAS AS PEDRAS EM HEXADECIMAL COM OS 2 ULTIMOS DIGITOS SEM REPETIÇÃO EM  FORMA DE CHARARRAY MAIUSCULO
+    pedrahex=numpy.chararray(144, itemsize=2, unicode=True)
+    stonearray = numpy.random.choice(numpy.arange(16, 160), size=144, replace=False)
+    for i in range(144):
+        hexa=hex(stonearray[i]).upper()
+        pedrahex[i]=hexa[2:]
+    return pedrahex
+pedras = stonesort()[2:]
+
+cartela1 = bingocardhex1(randomarray1)
+exibircartela1 = numpy.reshape(cartela1,(4,4))
+
+cartela2 = bingocardhex2(randomarray2)
+exibircartela2 = numpy.reshape(cartela2,(4,4))
+
+cartela3 = bingocardhex3(randomarray3)
+exibircartela3 = numpy.reshape(cartela3,(4,4))
+
+check=0
+contadorpedras=0
+contadorpontos1=0
+contadorpontos2=0
+contadorpontos3=0
+while True:#BINGO HEXADECIMAL - MENU:
+    print('Menu do Bingo')
+    print('Alternativa 1: Digitar nome dos jogadores.')
+    print('Alternativa 2: Exibir cartela dos jogadores.')
+    print('Alternativa 3: Sortear pedra.')
+    print('Alternativa 4: Verificar pontuação.')
+    print('Alternativa 0: Sair.')
+    while True:
+        try:
+            menu = int(input('Escolha sua opção: '))
+            break
+        except:
+            print('Favor digitar apenas números.')
+    if menu == 1:
+        jogador1 = input('Digite o nome do jogador 1:')
+        jogador2 = input('Digite o nome do jogador 2:')
+        jogador3 = input('Digite o nome do jogador 3:')
+        check = 1
+    if menu == 2 and check == 1:
+        print(f'Cartela do Jogador 1 ({jogador1}) é: \n{exibircartela1}')
+        print(f'E sua maior pedra é: {maiorpedra1}')
+        print(f'Cartela do Jogador 2 ({jogador2}) é: \n{exibircartela2}')
+        print(f'E sua maior pedra é: {maiorpedra2}')
+        print(f'Cartela do Jogador 3 ({jogador3}) é: \n{exibircartela3}')
+        print(f'E sua maior pedra é: {maiorpedra3}')
+    elif menu == 2 and check != 1:
+        print('Favor digitar os nomes dos jogadores!')
+    if menu == 3 and check == 1:
+        print(pedras[0+contadorpedras])
+        if str(pedras[0+contadorpedras]) in cartela1:
+            contadorpontos1 += 1
+            if contadorpontos1 == 16:
+                print(
+                    f"Parabens o jogador {jogador1} venceu o bingo. E sua premiação foi de {100 - contadorpedras + maiorpedra1} R$")
+                break
+        if str(pedras[0+contadorpedras]) in cartela2:
+            contadorpontos2 += 1
+            if contadorpontos1 == 16:
+                print(
+                    f"Parabens o jogador {jogador2} venceu o bingo. E sua premiação foi de {100 - contadorpedras + maiorpedra2} R$")
+                break
+        if str(pedras[0+contadorpedras]) in cartela3:
+            contadorpontos3 += 1
+            if contadorpontos3 == 16:
+                print(
+                    f"Parabens o jogador {jogador3} venceu o bingo. E sua premiação foi de {100 - contadorpedras + maiorpedra3} R$")
+                break
+        contadorpedras+=1
+    elif menu == 3 and check != 1:
+        print('Favor digitar os nomes dos jogadores!')
+    if menu == 4 and check == 1:
+        print(f'O {jogador1} ja acertou {contadorpontos1} pedras.')
+        print(f'O {jogador2} ja acertou {contadorpontos2} pedras.')
+        print(f'O {jogador3} ja acertou {contadorpontos3} pedras.')
+    elif menu == 4 and check != 1:
+        print('Favor digitar os nomes dos jogadores!')
+    if menu == 0:
+        break
